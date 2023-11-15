@@ -19,7 +19,7 @@ class VideoProcessor:
     def drawPoints(image, faceLandmarks, startpoint, endpoint, isClosed=False):
         points = []
 
-        for i in range(startpoint, min(endpoint+1, len(faceLandmarks.parts()))):
+        for i in range(startpoint, min(endpoint+2, len(faceLandmarks.parts()))):
             point = [faceLandmarks.part(i).x, faceLandmarks.part(i).y]
             points.append(point)
 
