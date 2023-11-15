@@ -15,16 +15,16 @@ p = 'shape_predictor_68_face_landmarks.dat'
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
-class VideoProcessor:
-    def drawPoints(image, faceLandmarks, startpoint, endpoint, isClosed=False):
+def drawPoints(image, faceLandmarks, startpoint, endpoint, isClosed=False):
     points = []
-    
     for i in range(startpoint, endpoint+1):
         point = [faceLandmarks.part(i).x, faceLandmarks.part(i).y]
         points.append(point)
-
     points = np.array(points, dtype=np.int32)
     cv2.polylines(image, [points], isClosed, (255, 200, 0), thickness=2, lineType=cv2.LINE_8)
+
+class VideoProcessor:
+    
     def recv(self, frame):
         img = frame.to_ndarray(format="bgr24")
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -37,7 +37,7 @@ class VideoProcessor:
         	# 	cv2.circle(img, (i,y), 2, (0, 255, 0), -1)
             # count number of landmarks we actually detected on image
         
-            if i==0:
+                if i==0:
                 print("Total number of face landmarks detected ",len(s_.parts()))
                 
                 drawPoints(img, s_, 0, 16)           # Jaw line
@@ -48,7 +48,7 @@ class VideoProcessor:
                 drawPoints(img, s_, 36, 41, True)    # Left eye
                 drawPoints(img, s_, 42, 47, True)    # Right Eye
                 drawPoints(img, s_, 48, 59, True)    # Outer lip
-                drawPoints(img, s_, 60, 67, True)    # Inner lip
+                drawPoints(img, s_, 60, 67, True)    # Inner lip 
 
         return av.VideoFrame.from_ndarray(img, format="bgr24")
 
@@ -61,8 +61,3 @@ webrtc_streamer(key="dlib", mode=WebRtcMode.SENDRECV,
                               video_processor_factory=VideoProcessor,
                               media_stream_constraints={"video": True, "audio": False},
                               async_processing=True)
-
-
-
-
-
