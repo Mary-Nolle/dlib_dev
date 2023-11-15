@@ -35,7 +35,7 @@ class VideoProcessor:
             s_ = predictor(gray, rect)
             s = face_utils.shape_to_np(s_)
 
-            for(i, y) in s;
+            for(i, y) in s:
                 cv2.circle(img,(i,y), 2, (0,255,00, -1)
                 #count number of landmarks we actually detected in the image
             if i == 0:
